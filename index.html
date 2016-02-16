@@ -163,13 +163,13 @@
 				//Luce
 				light = new THREE.PointLight( 0xFFB90F,1,5,2);
 				
-				light.shadowDarkness = 0.5;
+				/*light.shadowDarkness = 0.5;
 				light.castShadow = true;
 				light.shadowMapWidth = 2048; 
-				light.shadowMapHeight = 2048;
+				light.shadowMapHeight = 2048;*/
 				
 				//Ombre 
-				renderer.shadowMapEnabled = true;
+				renderer.shadowMapEnabled = false;
 				
 				//Torcia
 				var loader = new THREE.JSONLoader();
@@ -202,8 +202,8 @@
 					
 					if ( node instanceof THREE.Object3D ) {
 
-						node.castShadow = true;
-						node.receiveShadow = true;
+						node.castShadow = false;
+						node.receiveShadow = false;
 					}
 
 				} );
