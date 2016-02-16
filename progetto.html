@@ -74,7 +74,7 @@
 		<script>
 		
 			 // variabili globali per la camera, la scena, luce, ecc..
-            var camera, camera2, controls, scene, renderer, light, torch, stats, frame;
+            var camera, camera2, controls, scene, renderer, light, torch, stats, frame, speed;
 		
 		
 			init();
@@ -108,7 +108,7 @@
 				bump.wrapT = THREE.RepeatWrapping;
 				bump.repeat.set( 500, 500 );
 				
-				var planeMaterial = new THREE.MeshPhongMaterial( {map: texture, bumpMap: bump} );
+				var planeMaterial = new THREE.MeshPhongMaterial( {map: texture, bumpMap: bump, bumpScale: 0.2} );
 				var plane = new THREE.Mesh(planeGeometry,planeMaterial);
 				
 				plane.position.y = 0;
@@ -131,7 +131,7 @@
 				bump.wrapT = THREE.RepeatWrapping;
 				bump.repeat.set( 4, 4);
 				
-				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump} );
+				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2} );
 				var cube = new THREE.Mesh(geometry,material);				
 				
 				scene.add(cube);
@@ -148,8 +148,12 @@
 				
 				
 				//Controlli FPS 
-				controls = new FPSControls(camera);
+				
+				speed = 0.01
+				
+				controls = new FPSControls(camera,speed);
 				controls.PLObject.position.set(1,2,2);
+				
 				scene.add(controls.PLObject);
 
 				/*//Camera secondaria (per debugging)

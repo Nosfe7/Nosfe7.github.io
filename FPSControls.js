@@ -139,13 +139,13 @@ var FPSControls = function(camera, speed) {
 	this.update = function() {
 
 
-		if (moveForward) this.PLObject.translateZ(-0.01);
+		if (moveForward) this.PLObject.translateZ(-speed);
 		
-		if (moveBackward) this.PLObject.translateZ(0.01);
+		if (moveBackward) this.PLObject.translateZ(speed);
 		
-		if (moveLeft)  this.PLObject.translateX(-0.01);
+		if (moveLeft)  this.PLObject.translateX(-speed);
 		
-		if (moveRight) this.PLObject.translateX(0.01);
+		if (moveRight) this.PLObject.translateX(speed);
 	
 			
 			
