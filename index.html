@@ -57,10 +57,15 @@
 		</style>
 	</head>
 	<body>
-		<script src="mrdoob-three.js-1f968fe\build\three.js"></script>
-		<script src="mrdoob-three.js-1f968fe\examples\js\controls\PointerLockControls.js"></script>
-		<script src="FPSControls.js"></script>
-		<script src="mrdoob-three.js-1f968fe\examples\js\libs\stats.min.js"></script>
+		<script src="ThreeJS\build\three.js"></script>
+		<script src="ThreeJS\examples\js\controls\PointerLockControls.js"></script>
+		<script src="ThreeJS\examples\js\libs\stats.min.js"></script>
+		<script src="js\FPSControls.js"></script>
+		<script src="js\ParticleEngine.js"></script>
+		<script src="js\jquery-1.11.3.js"></script>
+		<script src="js\loadShader.js"></script>
+		
+		
 		<div id="blocker">
 
 			<div id="instructions">
@@ -74,20 +79,36 @@
 		<script>
 		
 			 // variabili globali per la camera, la scena, luce, ecc..
-            var camera, camera2, controls, scene, renderer, light, torch, stats, frame, speed;
+            var camera, camera2; 
+			var controls;
+			var scene, renderer;
+			var light;
+			var torch; 
+			var stats; 
+			var speed; 
+			var particleEngine;
+			
 		
 		
 			init();
 			animate();
 		
+			//Costruisce la gerarchia della torcia: camera->torcia->luce, 
+			function torchBuild() {
+			
+			
+			}
+		
 		
             // INIZIALIZZAZIONE
+  
+		
   
             function init() {
 		
 				//Settaggio scena, camera e renderer
 				scene = new THREE.Scene();
-				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 1000);
 				//camera2 = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 				
 				renderer = new THREE.WebGLRenderer();
@@ -190,12 +211,26 @@
 				);
 				
 				
-				//Gerarchia: camera->torcia->luce
-				camera.add(torch);
-				torch.position.set(0,-0.3,-0.7);
 				
+				
+				
+				
+				
+				//Gerarchia: camera->torcia->luce e fiamma
+				camera.add(torch);
+				torch.position.set(0,-0.35,-0.7);
+				
+				//Fiamma
+				flamePos = new THREE.Vector3(0.32, -0.1, 0.21);
+				
+				particleEngine = new ParticleEngine(10000, 40, flamePos, torch );
+				
+				particleEngine.init();
+				
+				//Luce
 				torch.add(light);
-				light.position.set(0.5,0.4,0);
+				light.position.set(0.5,0.5,0.3);
+				
 				
 				//Ogni oggetto della scena deve produrre un'ombra quando interagisce con la luce
 				scene.traverse( function( node ) {
@@ -225,6 +260,10 @@
 		
 				//Aggiorna statistiche 
 				stats.update(renderer);
+				
+				//Aggiorna particle engine
+				particleEngine.update()
+
 				
 				//Chiama la funzione di rendering
 				render();
