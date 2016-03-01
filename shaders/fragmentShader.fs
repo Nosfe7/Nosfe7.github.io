@@ -1,7 +1,11 @@
+precision mediump float;
 
 uniform sampler2D texture;
-varying highp vec2 vUv;
+uniform float rotation;
 
 void main() {
+	
+	
+
 	gl_FragColor = texture2D(texture,gl_PointCoord);
 }

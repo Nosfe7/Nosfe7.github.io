@@ -18,7 +18,8 @@ function ParticleEngine(pCount, s, pos, emitter) {
 		
 		uniforms = {
 			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
-			emitterPosition: {type: 'v3', value : pos}
+			emitterPosition: {type: 'v3', value : pos},
+			rotation: {type: 'f', value:0.4}
 		};
 		
 

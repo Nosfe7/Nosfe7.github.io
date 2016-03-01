@@ -1,3 +1,5 @@
+precision mediump float;
+
 // matrice di modellazione e di vista
 uniform mat4 modelViewMatrix;
 // matrice di proiezione
@@ -6,13 +8,13 @@ uniform mat4 projectionMatrix;
 //Varia dimensioni della particella con la distanza dal punto di emissione
 uniform vec3 emitterPosition;
 attribute vec3 position;
-attribute vec2 uv; 
 attribute float size; 
+
+//Rotazione particella
+uniform float rotation;
 
 //Modifico la posizione orizzontale sulla base del tempo
 uniform float timer;
-
-varying vec2 vUv;
 
 void main() {
 
