@@ -17,7 +17,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 		
 		
 		uniforms = {
-			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
+			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire5.png')},
 			emitterPosition: {type: 'v3', value : pos},
 			rotation: {type: 'f', value:0.4}
 		};
@@ -46,7 +46,6 @@ function ParticleEngine(pCount, s, pos, emitter) {
 					vertexShader: shaders.vertexShader, 
 					uniforms: uniforms,
 
-					
 					/*Disabilito la scrittura sullo z - buffer, 
 					  in modo che le particelle possano essere renderizzate nell'ordine della coordinata z (prima quelle più profonde ), sovrapponendosi correttamente.
 					  Se venisse abilitata la scrittura sullo z - buffer, le particelle meno profonde verrebbero renderizzate per prime, e poichè il renderer non sà ancora 
@@ -55,8 +54,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 					*/
 					depthWrite : false, 
 					blending: THREE.AdditiveBlending,
-					transparent: true,
-					opacity: 0.5
+					transparent : true
 				};
 
 			
@@ -81,7 +79,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 				for (var p = 0; p < particlesCount; p++) {
 				
 				
-					var partPos = new THREE.Vector3(Math.random()/30, 0.38, Math.random()/30);
+					var partPos = new THREE.Vector3(Math.random()/30, 0.38 , Math.random()/30);
 				
 					positions[3 * p + 0] = partPos.x;
 					positions[3 * p + 1] = partPos.y;
@@ -92,6 +90,8 @@ function ParticleEngine(pCount, s, pos, emitter) {
 				
 				particlesGeometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
 				particlesGeometry.addAttribute('size', new THREE.BufferAttribute(sizes, 1));
+				
+				
 				
 				loaded = true;
 				
@@ -120,7 +120,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 		  
 		  positions = particlesGeometry.attributes.position.array;
 		  
-		  while (counter > 0) {
+		  while (counter >= 0) {
 
 			// Posizione particella
 			var partPos = new THREE.Vector3(positions[counter*3 + 0], 
@@ -128,30 +128,28 @@ function ParticleEngine(pCount, s, pos, emitter) {
 							positions[counter*3 + 2]
 				);
 			
+			//Vettore velocità 
+			
+			velocity = new THREE.Vector3(0, Math.random()/20, 0); 
 			
 			
-			
-			//Vettore velocità random
-
-			
-			velocity = new THREE.Vector3(0, Math.random(), 0); 
-
-			
+			var newPartPos = new THREE.Vector3(partPos.x,partPos.y,partPos.z);
 			
 			//Se la particella supera un'altezza massima, riposiziona
-			if (partPos.y > Math.random() + 10) {
-			  partPos.y = 0.38;
-			  partPos.x = Math.random()/30;
-			  partPos.z = Math.random()/30;
-			  //velocity.y = 0;
+			if (partPos.y > Math.random()*0.7) {
+			  
+			  newPartPos.y = Math.random()/30 + 0.38;
+			  newPartPos.x = Math.random()/ 35;
+			  newPartPos.z = Math.random()/ 35;
 			}
 
 			
-			// Muovi particella verso l'alto
+			//Muovi particella
+			else newPartPos.add(velocity);
 			
-			partPos.add(velocity);
-			
-			particlesGeometry.getAttribute('position').setXYZ(counter,partPos.x, partPos.y + velocity.y, partPos.z);
+
+	
+			particlesGeometry.getAttribute('position').setXYZ(counter,newPartPos.x, newPartPos.y, newPartPos.z);
 			counter --;
 		  }
 
