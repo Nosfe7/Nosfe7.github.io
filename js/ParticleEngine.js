@@ -112,7 +112,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 	this.update = function() {
 	
 	
-	  if (loaded && flameSpeed%4 == 0) {
+	  if (loaded && flameSpeed%5 == 0) {
 		  
 		  
 		  
