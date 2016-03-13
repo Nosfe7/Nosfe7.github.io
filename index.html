@@ -221,11 +221,12 @@
 				torch.position.set(0,-0.35,-0.7);
 				
 				//Fiamma
-				flamePos = new THREE.Vector3(0.32, -0.075, 0.21);
+				flamePos = new THREE.Vector3(0.32,-0.075, 0.216);
 				
-				particleEngine = new ParticleEngine(10000, 40, flamePos, torch );
+				particleEngine = new ParticleEngine(700, 40, flamePos, torch );
 				
 				particleEngine.init();
+				
 				
 				//Luce
 				torch.add(light);
