@@ -87,18 +87,12 @@
 			var stats; 
 			var speed; 
 			var particleEngine;
+			var timer;
 			
 		
 		
 			init();
 			animate();
-		
-			//Costruisce la gerarchia della torcia: camera->torcia->luce, 
-			function torchBuild() {
-			
-			
-			}
-		
 		
             // INIZIALIZZAZIONE
   
@@ -244,6 +238,9 @@
 
 				} );
 				
+				
+				//Timer
+				timer = new THREE.Clock(true);
 			}
 			
 			
@@ -269,7 +266,9 @@
 				//Chiama la funzione di rendering
 				render();
 			
-				
+				//Tempo trascorso in secondi
+			
+				light.intensity = (Math.cos(timer.getElapsedTime()*20)/10) + 1;
             }
 			
 			//Evento resize delle finestra
@@ -288,7 +287,8 @@
 			
 			//Rendering della scena
 			function render(){
-			
+				
+				
 				renderer.render(scene, camera);
 				
 			}
