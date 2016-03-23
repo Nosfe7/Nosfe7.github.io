@@ -76,8 +76,6 @@
 
 		</div>
 		
-		
-		
 		<script>
 		
 			 // variabili globali per la camera, la scena, luce, ecc..
@@ -85,7 +83,6 @@
 			var controls;
 			var scene, renderer;
 			var light;
-			var intModifier = 1; //modifier per l'intensità della luce
 			var torch; 
 			var stats; 
 			var speed; 
@@ -96,24 +93,9 @@
 		
 			init();
 			animate();
-
-
-			//controlla le dimensioni della fiamma e l'intensità della luce
-			function flameControl(height,width,intensity){
-			
-				height -= 0.0001;
-				width += 0.5;
-				intensity -= 0.0001;
-			
-				var results = [height,width,intensity] 
-			
-				return results
-			
-			}
-			
+		
             // INIZIALIZZAZIONE
   
-
 		
   
             function init() {
@@ -225,17 +207,17 @@
 				
 				
 				
+				
+				
+				
 				//Gerarchia: camera->torcia->luce e fiamma
 				camera.add(torch);
 				torch.position.set(0,-0.35,-0.7);
 				
 				//Fiamma
-				flamePos = new THREE.Vector3(0.325,-0.075, 0.216);
+				flamePos = new THREE.Vector3(0.32,-0.075, 0.216);
 				
-				var flameHeight = 0.7;
-				var flameWidth = 35;
-				
-				particleEngine = new FlameParticleEngine(700, 40, flamePos, torch, flameHeight, flameWidth);
+				particleEngine = new ParticleEngine(700, 40, flamePos, torch );
 				
 				particleEngine.init();
 				
@@ -284,17 +266,9 @@
 				//Chiama la funzione di rendering
 				render();
 			
-				//Dimensioni fiamma e intensità luce
-				var newValues = flameControl(particleEngine.height,particleEngine.width,intModifier);
-				
-				
-				
-				particleEngine.height = newValues[0];
-				particleEngine.width = newValues[1];
-				
-				intModifier = newValues[2];
+				//Tempo trascorso in secondi
 			
-				light.intensity = (Math.cos(timer.getElapsedTime()*20)/10) + intModifier;
+				light.intensity = (Math.cos(timer.getElapsedTime()*20)/10) + 1;
             }
 			
 			//Evento resize delle finestra
