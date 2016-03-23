@@ -1,10 +1,14 @@
-function ParticleEngine(pCount, s, pos, emitter) {
+function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 
 	var particleSystem, particlesCount, pMaterial;
+	
 	var flameSpeed = 0;
 	
 
 	this.init = function() {
+	
+		this.height = height;
+		this.width = width;
 	
 		//Crea le variabili delle particelle
 		particlesCount = pCount;
@@ -13,9 +17,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 		//flag: indica se il partice system è stato creato
 		loaded = false;
 
-		//Shaders 
-		
-		
+		//Shaders
 		uniforms = {
 			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
 			emitterPosition: {type: 'v3', value : pos},
@@ -29,6 +31,8 @@ function ParticleEngine(pCount, s, pos, emitter) {
 				  
 		};
 		
+		var loadingText;
+		
 		// carico gli shader in maniera asincrona.
 		// la funzione chiede i path dei file da caricare,
 		// un callback da chiamare durante il caricamento, e un callback da chiamare alla fine del caricamento.
@@ -37,10 +41,23 @@ function ParticleEngine(pCount, s, pos, emitter) {
 			// callback durante il caricamento  
 			function(progress) {
 				console.log(progress,'loaded');
+			
+				/*loadingText = document.createElement('div');
+				loadingText.style.position = 'absolute';
+				//loadingText.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+				loadingText.style.width = 100;
+				loadingText.style.height = 100;
+				loadingText.style.color = "red";
+				loadingText.innerHTML = "Loading shaders";
+				loadingText.style.top = 200 + 'px';
+				loadingText.style.left = 200 + 'px';
+				document.body.appendChild(loadingText);*/
+			
 			}, 
 			// callback alla fine  
 			function() {
 				console.log('done loading shaders.');
+				//loadingText.innerHTML = "done loading shaders";
 				parameters = { 
 					fragmentShader: shaders.fragmentShader, 
 					vertexShader: shaders.vertexShader, 
@@ -141,10 +158,10 @@ function ParticleEngine(pCount, s, pos, emitter) {
 			var newPartPos = new THREE.Vector3(partPos.x,partPos.y,partPos.z);
 			
 			//Se la particella supera un'altezza massima, riposiziona
-			if (partPos.y > Math.random()*0.8) {
+			if (partPos.y > Math.random()*this.height) {
 			  
 			  newPartPos.y = Math.random()/30 + 0.38;
-			  newPartPos.x = Math.random()/ 35;
+			  newPartPos.x = Math.random()/ this.width;
 			  newPartPos.z = Math.random()/ 35;
 			}
 
