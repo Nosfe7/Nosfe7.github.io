@@ -112,7 +112,7 @@
 =======
             // INIZIALIZZAZIONE
   
->>>>>>> origin/master
+
 		
             // INIZIALIZZAZIONE
             function init() {
@@ -232,18 +232,18 @@
 				torch.position.set(0,-0.35,-0.7);
 				
 				//Fiamma
-<<<<<<< HEAD
+
 				flamePos = new THREE.Vector3(0.332,-0.075, 0.234);
 				
 				var flameHeight = 0.8;
 				var flameWidth = 0.012;
 				
 				particleEngine = new FlameParticleEngine(500, 20, flamePos, torch, flameHeight, flameWidth );
-=======
+
 				flamePos = new THREE.Vector3(0.32,-0.075, 0.216);
 				
 				particleEngine = new ParticleEngine(700, 40, flamePos, torch );
->>>>>>> origin/master
+
 				
 				particleEngine.init();
 				
@@ -293,7 +293,7 @@
 				//Chiama la funzione di rendering
 				render();
 			
-<<<<<<< HEAD
+
 				//Luce
 				radiusModifier = lightControl(radiusModifier);
 			
@@ -303,11 +303,11 @@
 
 				//Intensità della luce è modificata da una funzione coseno per dare un effetto di lampeggiamento
 				light.intensity = (Math.cos(timer.getElapsedTime()*(20))/(10)) + 1;
-=======
+
 				//Tempo trascorso in secondi
 			
 				light.intensity = (Math.cos(timer.getElapsedTime()*20)/10) + 1;
->>>>>>> origin/master
+
             }
 			
 			//Evento resize delle finestra
