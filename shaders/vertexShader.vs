@@ -13,7 +13,6 @@ attribute float size;
 //Rotazione particella
 uniform float rotation;
 
-//Modifico la posizione orizzontale sulla base del tempo
 uniform float timer;
 
 void main() {
@@ -23,7 +22,7 @@ void main() {
 	float dist = distance(emitterPosition, position);
 
 	
-	gl_PointSize =  size / pow(dist, 3.0);
+	gl_PointSize =  size / pow(dist, 4.0);
 	
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 

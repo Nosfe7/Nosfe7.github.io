@@ -1,23 +1,30 @@
-function ParticleEngine(pCount, s, pos, emitter) {
+function getRandomFloat(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 
 	var particleSystem, particlesCount, pMaterial;
 	var flameSpeed = 0;
+	var deleteIndexes = 5;
 	
+	
+	this.height = height;
+	this. width = width;
 
 	this.init = function() {
+	
 	
 		//Crea le variabili delle particelle
 		particlesCount = pCount;
 		particlesGeometry = new THREE.BufferGeometry();
 		
-		//flag: indica se il partice system è stato creato
+		//flag: indica se il particle system è stato creato
 		loaded = false;
 
 		//Shaders 
-		
-		
 		uniforms = {
-			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire5.png')},
+			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
 			emitterPosition: {type: 'v3', value : pos},
 			rotation: {type: 'f', value:0.4}
 		};
@@ -52,8 +59,13 @@ function ParticleEngine(pCount, s, pos, emitter) {
 					  se vi sono particelle dietro, nella sovrapposizione verrebbero mostrati gli angoli della texture. 
 					
 					*/
-					depthWrite : false, 
+					depthWrite : false,
+
+					
 					blending: THREE.AdditiveBlending,
+					
+					//Trasparenza
+					opacity : 0.5,
 					transparent : true
 				};
 
@@ -67,6 +79,8 @@ function ParticleEngine(pCount, s, pos, emitter) {
 				sizes = new Float32Array(particlesCount);
 
 				
+				
+				
 				//Ordina le particelle
 				particleSystem.sortParticles = true;
 				
@@ -79,7 +93,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 				for (var p = 0; p < particlesCount; p++) {
 				
 				
-					var partPos = new THREE.Vector3(Math.random()/30, 0.38 , Math.random()/30);
+					var partPos = new THREE.Vector3(getRandomFloat(-this.width,this.width), 0.38 , getRandomFloat(-this.width,this.width));
 				
 					positions[3 * p + 0] = partPos.x;
 					positions[3 * p + 1] = partPos.y;
@@ -112,15 +126,47 @@ function ParticleEngine(pCount, s, pos, emitter) {
 	this.update = function() {
 	
 	
-	  if (loaded && flameSpeed%4 == 0) {
+	  if (loaded && flameSpeed%5 == 0) {
 		  
+			this.height -= 0.0005;
+			
+			if (this.height <= 0.6)
+				deleteIndexes = 2;
+			else if (this.height <=0.4)
+				deleteIndexes = 1;
+			  
+			this.width -= 0.000005;
+			
+			
+					
+			if (this.width <= 0)
+				this.width = 0;
 		  
 		  
 		  var counter = particlesCount - 1;
 		  
 		  positions = particlesGeometry.attributes.position.array;
+		  sizes = particlesGeometry.attributes.size.array;
 		  
 		  while (counter >= 0) {
+			  
+			 /*Workaround per cancellare particelle: 
+				setto a zero dimensione se corrispondono a un determinato indice
+			 */
+			 
+			 
+			if (counter%deleteIndexes == 0){
+				
+				var partSize = sizes[counter];
+				
+				partSize = 0;
+				
+				particlesGeometry.getAttribute('size').setX(counter,partSize);
+				
+				
+				
+			}
+			
 
 			// Posizione particella
 			var partPos = new THREE.Vector3(positions[counter*3 + 0], 
@@ -136,11 +182,11 @@ function ParticleEngine(pCount, s, pos, emitter) {
 			var newPartPos = new THREE.Vector3(partPos.x,partPos.y,partPos.z);
 			
 			//Se la particella supera un'altezza massima, riposiziona
-			if (partPos.y > Math.random()*0.7) {
+			if (partPos.y > Math.random()*this.height) {
 			  
 			  newPartPos.y = Math.random()/30 + 0.38;
-			  newPartPos.x = Math.random()/ 35;
-			  newPartPos.z = Math.random()/ 35;
+			  newPartPos.x = getRandomFloat(-this.width,this.width);
+			  newPartPos.z = getRandomFloat(-this.width,this.width);
 			}
 
 			
@@ -148,7 +194,7 @@ function ParticleEngine(pCount, s, pos, emitter) {
 			else newPartPos.add(velocity);
 			
 
-	
+
 			particlesGeometry.getAttribute('position').setXYZ(counter,newPartPos.x, newPartPos.y, newPartPos.z);
 			counter --;
 		  }

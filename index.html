@@ -82,28 +82,34 @@
             var camera, camera2; 
 			var controls;
 			var scene, renderer;
-			var light;
+			var light, radiusModifier;
 			var torch; 
 			var stats; 
 			var speed; 
 			var particleEngine;
+			var timer;
 			
 		
 		
 			init();
 			animate();
 		
-			//Costruisce la gerarchia della torcia: camera->torcia->luce, 
-			function torchBuild() {
+			//controlla la distanza di propagazione della luce
+			function lightControl(radius){
 			
+	
+				radius -= 0.0000002;
+			
+				if (radius <= 0)
+					radius = 0;
+					
+				return radius
 			
 			}
 		
 		
-            // INIZIALIZZAZIONE
-  
 		
-  
+            // INIZIALIZZAZIONE
             function init() {
 		
 				//Settaggio scena, camera e renderer
@@ -221,9 +227,12 @@
 				torch.position.set(0,-0.35,-0.7);
 				
 				//Fiamma
-				flamePos = new THREE.Vector3(0.325,-0.075, 0.21);
+				flamePos = new THREE.Vector3(0.332,-0.075, 0.234);
 				
-				particleEngine = new ParticleEngine(2000, 25, flamePos, torch );
+				var flameHeight = 0.8;
+				var flameWidth = 0.012;
+				
+				particleEngine = new FlameParticleEngine(500, 20, flamePos, torch, flameHeight, flameWidth );
 				
 				particleEngine.init();
 				
@@ -232,6 +241,7 @@
 				torch.add(light);
 				light.position.set(0.5,0.5,0.3);
 				
+				radiusModifier = 1;
 				
 				//Ogni oggetto della scena deve produrre un'ombra quando interagisce con la luce
 				scene.traverse( function( node ) {
@@ -244,6 +254,9 @@
 
 				} );
 				
+				
+				//Timer
+				timer = new THREE.Clock(true);
 			}
 			
 			
@@ -269,7 +282,15 @@
 				//Chiama la funzione di rendering
 				render();
 			
-				
+				//Luce
+				radiusModifier = lightControl(radiusModifier);
+			
+			
+				light.distance *=radiusModifier;
+			
+
+				//Intensità della luce è modificata da una funzione coseno per dare un effetto di lampeggiamento
+				light.intensity = (Math.cos(timer.getElapsedTime()*(20))/(10)) + 1;
             }
 			
 			//Evento resize delle finestra
@@ -288,7 +309,8 @@
 			
 			//Rendering della scena
 			function render(){
-			
+				
+				
 				renderer.render(scene, camera);
 				
 			}
