@@ -187,7 +187,6 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 			//Se la particella supera un'altezza massima, riposiziona
 
 			if (partPos.y > Math.random()*this.height) {
-			if (partPos.y > Math.random()*0.8) {
 
 			  
 			  newPartPos.y = Math.random()/30 + 0.38;
@@ -212,6 +211,7 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 		}
 		
 		 flameSpeed ++;
+	  
 	}
 
 
