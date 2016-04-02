@@ -65,7 +65,11 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 					blending: THREE.AdditiveBlending,
 					
 					//Trasparenza
+<<<<<<< HEAD
 					opacity : 0.5,
+=======
+					opacity : 0.9,
+>>>>>>> origin/master
 					transparent : true
 				};
 
@@ -182,7 +186,11 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 			var newPartPos = new THREE.Vector3(partPos.x,partPos.y,partPos.z);
 			
 			//Se la particella supera un'altezza massima, riposiziona
+<<<<<<< HEAD
 			if (partPos.y > Math.random()*this.height) {
+=======
+			if (partPos.y > Math.random()*0.8) {
+>>>>>>> origin/master
 			  
 			  newPartPos.y = Math.random()/30 + 0.38;
 			  newPartPos.x = getRandomFloat(-this.width,this.width);
