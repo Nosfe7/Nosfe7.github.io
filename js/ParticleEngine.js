@@ -65,11 +65,10 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 					blending: THREE.AdditiveBlending,
 					
 					//Trasparenza
-<<<<<<< HEAD
+
 					opacity : 0.5,
-=======
 					opacity : 0.9,
->>>>>>> origin/master
+
 					transparent : true
 				};
 
