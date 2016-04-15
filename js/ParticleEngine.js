@@ -6,7 +6,6 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 
 	var particleSystem, particlesCount, pMaterial;
 	var flameSpeed = 0;
-	var deleteIndexes = 5;
 	
 	
 	this.height = height;
@@ -26,7 +25,7 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 		uniforms = {
 			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
 			emitterPosition: {type: 'v3', value : pos},
-			rotation: {type: 'f', value:0.4}
+			opacity: {type: 'f', value:0.2}
 		};
 		
 
@@ -64,10 +63,6 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 					
 					blending: THREE.AdditiveBlending,
 					
-					//Trasparenza
-
-					opacity : 0.5,
-					opacity : 0.9,
 
 					transparent : true
 				};
@@ -133,17 +128,9 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 		  
 			this.height -= 0.0005;
 			
-			if (this.height <= 0.6)
-				deleteIndexes = 2;
-			else if (this.height <=0.4)
-				deleteIndexes = 1;
-			  
-			this.width -= 0.000005;
-			
-			
-					
-			if (this.width <= 0)
-				this.width = 0;
+
+			pMaterial.uniforms.opacity.value -=0.00025;
+
 		  
 		  
 		  var counter = particlesCount - 1;
@@ -153,22 +140,6 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 		  
 		  while (counter >= 0) {
 			  
-			 /*Workaround per cancellare particelle: 
-				setto a zero dimensione se corrispondono a un determinato indice
-			 */
-			 
-			 
-			if (counter%deleteIndexes == 0){
-				
-				var partSize = sizes[counter];
-				
-				partSize = 0;
-				
-				particlesGeometry.getAttribute('size').setX(counter,partSize);
-				
-				
-				
-			}
 			
 
 			// Posizione particella

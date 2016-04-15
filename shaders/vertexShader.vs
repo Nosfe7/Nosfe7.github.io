@@ -10,8 +10,8 @@ uniform vec3 emitterPosition;
 attribute vec3 position;
 attribute float size; 
 
-//Rotazione particella
-uniform float rotation;
+//Opacità particella
+uniform float opacity;
 
 uniform float timer;
 
