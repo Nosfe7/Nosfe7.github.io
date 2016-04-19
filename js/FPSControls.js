@@ -85,6 +85,7 @@ var FPSControls = function(camera, speed) {
 	var moveLeft = false;
 	var moveRight = false;
 	
+	
 	var onKeyDown = function ( event ) {
 
 		
