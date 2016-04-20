@@ -25,7 +25,7 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 		uniforms = {
 			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
 			emitterPosition: {type: 'v3', value : pos},
-			opacity: {type: 'f', value:0.2}
+			opacity: {type: 'f', value:0.1}
 		};
 		
 
@@ -126,10 +126,10 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 	
 	  if (loaded && flameSpeed%5 == 0) {
 		  
-			this.height -= 0.0005;
+			this.height -= 0.0000005;
 			
 
-			pMaterial.uniforms.opacity.value -=0.00025;
+			pMaterial.uniforms.opacity.value -=0.000005;
 
 		  
 		  

@@ -105,7 +105,7 @@
 			function lightControl(radius){
 			
 	
-				radius -= 0.0000002;
+				radius -= 0.000000002;
 			
 				if (radius <= 0)
 					radius = 0;
@@ -167,8 +167,8 @@
 				bump.repeat.set( 4, 4);
 				
 				
-				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, transparent : true} );
-				cube = new THREE.Mesh(geometry,material);	
+				var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+				cube = new THREE.Mesh(geometry,transparentMaterial);	
 
 				scene.add(cube);
 				cube.position.z = -1;
@@ -179,9 +179,8 @@
 				
 
 				//Muro stanza 
-				
-				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, transparent : true} ),
 
+				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2} );
 				
 				cube2 = new THREE.Mesh(
 					geometry,
@@ -332,22 +331,21 @@
 				if (playerBB.isIntersectionBox(wallBB) && frustum.intersectsObject(cube)){
 					cube.material.opacity -= 0.03;
 					
+					
+					console.log(cube.material.opacity)
+;					
 					if (cube.material.opacity <= 0)
 						cube.material.opacity = 0;
 					
 				}
-				
-				else
-					cube.material.opacity += 0.01;
+
 				
 				
-				
+				//Se c'è intersezione con un muro della stanza, controlla dov'è l'intersezione, e blocca il movimento del personaggio
 				if (playerBB.isIntersectionBox(wall2BB)){
 				
 					var intersectionSize = playerBB.intersect (wall2BB).size();
 					
-
-					console.log(intersectionSize);
 				
 					if (playerBB.min.x <= wall2BB.max.x && playerBB.min.x > wall2BB.min.x
 						&& intersectionSize.x < intersectionSize.z)
