@@ -126,10 +126,10 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 	
 	  if (loaded && flameSpeed%5 == 0) {
 		  
-			this.height -= 0.0000005;
+			this.height -= 0.000001;
 			
 
-			pMaterial.uniforms.opacity.value -=0.000005;
+			pMaterial.uniforms.opacity.value -=0.00001;
 
 		  
 		  

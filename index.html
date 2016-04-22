@@ -134,8 +134,8 @@
 				
 				//Posizioni muri livello 1
 				
-				level1WallsPos = [new THREE.Vector3(2,2,-1), new THREE.Vector3(2,2,-2), new THREE.Vector3(-2,2,-1),
-								  new THREE.Vector3(-2,2,-1), new THREE.Vector3(-4,2,-2), new THREE.Vector3(-6,2,-2)];
+				level1WallsPos = [new THREE.Vector3(2,2,-1), new THREE.Vector3(2,2,-3), new THREE.Vector3(-2,2,-1),
+								  new THREE.Vector3(-4,2,-3), new THREE.Vector3(-6,2,-1)];
 				
 				//Piano
 				var planeGeometry = new THREE.BoxGeometry(500, 2, 500);
@@ -183,7 +183,7 @@
 				cube.position.y = 2;
 				
 				//collider tramite un boundary box,
-				wallBB = new THREE.Box3().setFromObject(cube);
+				wallBB = new THREE.Box3().setFromCenterAndSize(cube.position, new THREE.Vector3(4,4,4));
 				
 
 				//Muri prima stanza 
@@ -192,6 +192,7 @@
 				
 				wallsBBs = new Array();
 				
+				
 				for (i=0; i< level1WallsPos.length; i++) {
 					
 					wall = new THREE.Mesh(
@@ -199,9 +200,14 @@
 						material);
 					
 					scene.add(wall);
-					wall.position.set(level1WallsPos[i]);
 					
-					wallsBBs.push(new THREE.Box3().setFromObject(cube2));
+					//wall.position.set(level1WallsPos[0]);
+					
+					wall.position.x = level1WallsPos[i].x;
+					wall.position.y = level1WallsPos[i].y;
+					wall.position.z = level1WallsPos[i].z;
+					
+					wallsBBs.push(new THREE.Box3().setFromCenterAndSize(wall.position, new THREE.Vector3(2,2,2)));
 				}
 
 
@@ -333,52 +339,61 @@
 					var frustum = new THREE.Frustum().setFromMatrix(frustumMatrix);
 				
 					//2)Bounding Box intorno al personaggio
-					playerBB = new THREE.Box3().setFromCenterAndSize(controls.PLObject.position, new THREE.Vector3(2,2,2));
+					playerBB = new THREE.Box3().setFromCenterAndSize(controls.PLObject.position, new THREE.Vector3(1,1,1));
 
 				
 				/*se c'è intersezione con entrambi (il giocatore è di fronte al muro principale e vicino ad esso, 
-				/il muro principale diventa gradualmente trasparente, altrimenti ritorna come prima*/
-				if (playerBB.isIntersectionBox(wallBB) && frustum.intersectsObject(cube)){
-					cube.material.opacity -= 0.03;
-					
-					
-					console.log(cube.material.opacity)
-;					
-					if (cube.material.opacity <= 0)
-						cube.material.opacity = 0;
-					
-				}
+				/il muro principale diventa gradualmente trasparente e poi viene rimosso dalla scena*/
+				
+				
+				for (i=0; i<scene.children.length; i++) //controlla prima se il cubo esiste ancora nella scena 
+					if (scene.children[i] == cube){
+						
+				
+						if (playerBB.isIntersectionBox(wallBB) && frustum.intersectsObject(cube)){
+							cube.material.opacity -= 0.03;
+							
+		;					
+							if (cube.material.opacity <= 0){
+								cube.material.opacity = 0;
+								scene.remove(cube);
+							}
+							
+						}
+					}	
 
 				
 				
 				//Se c'è intersezione con un muro della stanza, controlla dov'è l'intersezione, e blocca il movimento del personaggio
 				
+
 				for (i=0; i < wallsBBs.length; i++)
 					if (playerBB.isIntersectionBox(wallsBBs[i])){
 					
 						var intersectionSize = playerBB.intersect (wallsBBs[i]).size();
-						
+					
 					
 						if (playerBB.min.x <= wallsBBs[i].max.x && playerBB.min.x > wallsBBs[i].min.x
 							&& intersectionSize.x < intersectionSize.z)
 							
-							controls.PLObject.position.x = wallsBBs[i].max.x + 1;
-						
+							controls.PLObject.position.x = wallsBBs[i].max.x + 0.5;
+					
 						else if (playerBB.max.x >= wallsBBs[i].min.x && playerBB.max.x < wallsBBs[i].max.x
 							&& intersectionSize.x < intersectionSize.z)
 							
-							controls.PLObject.position.x = wallsBBs[i].min.x - 1;
+							controls.PLObject.position.x = wallsBBs[i].min.x - 0.5;
 						
 						if (playerBB.min.z <= wallsBBs[i].max.z && playerBB.min.z > wallsBBs[i].min.z
 							&& intersectionSize.z < intersectionSize.x)
 							
-							controls.PLObject.position.z = wallsBBs[i].max.z + 1;
+							controls.PLObject.position.z = wallsBBs[i].max.z + 0.5;
 							
 						else if (playerBB.max.z >= wallsBBs[i].min.z && playerBB.max.z < wallsBBs[i].max.z 
 							&& intersectionSize.z < intersectionSize.x)
 							
-							controls.PLObject.position.z = wallsBBs[i].min.z - 1;
+							controls.PLObject.position.z = wallsBBs[i].min.z - 0.5;
 							
+						console.log("Collision with " + i);
 
 					}
 				
