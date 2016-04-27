@@ -155,6 +155,7 @@
 								  new THREE.Vector3(12,2,13), new THREE.Vector3(14,2,13), new THREE.Vector3(16,2,11),
 								  new THREE.Vector3(16,2,9), new THREE.Vector3(14,2,7), new THREE.Vector3(14,2,5),
 								  new THREE.Vector3(10,2,3)];
+								  
 				
 				//Piano
 				var planeGeometry = new THREE.BoxGeometry(500, 2, 500);
@@ -227,6 +228,7 @@
 					
 					wallsBBs.push(new THREE.Box3().setFromCenterAndSize(wall.position, new THREE.Vector3(2,2,2)));
 				}
+				
 
 
 				// Statistiche
@@ -327,6 +329,50 @@
 				
 				//Timer
 				timer = new THREE.Clock(true);
+				
+				
+				//INDIZI: LIVELLO 1
+				
+				//Freccie
+				arrow1 = new THREE.Object3D();
+				
+				loader.load(
+					// Path dell'oggetto da caricare in formato json
+					'models/sign.json',
+					// Funzione da richiamare quando l'oggetto è caricato
+					function ( geometry) {
+						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+						
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffd700), specular: new THREE.Color(0xffffff), shininess:5});
+						//geometry.scale(1/10,1/10,1/10);
+						var mesh = new THREE.Mesh( geometry, material );		
+						arrow1.add(mesh);
+					}
+				);
+				
+				scene.add(arrow1);
+				arrow1.position.set(1,1.05,9);
+				arrow1.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
+				
+				arrow2 = new THREE.Object3D();
+				
+				loader.load(
+					// Path dell'oggetto da caricare in formato json
+					'models/sign.json',
+					// Funzione da richiamare quando l'oggetto è caricato
+					function ( geometry) {
+						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+						
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffd700), specular: new THREE.Color(0xffffff)});
+						//geometry.scale(1/10,1/10,1/10);
+						var mesh = new THREE.Mesh( geometry, material );		
+						arrow2.add(mesh);
+					}
+				);
+				
+				scene.add(arrow2);
+				arrow2.position.set(3,1.05,11);
+				arrow2.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 			}
 			
