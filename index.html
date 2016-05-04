@@ -334,6 +334,28 @@
 				//INDIZI: LIVELLO 1
 				
 				//Freccie
+				arrow = new THREE.Object3D();
+				
+				loader.load(
+					// Path dell'oggetto da caricare in formato json
+					'models/sign.json',
+					// Funzione da richiamare quando l'oggetto è caricato
+					function ( geometry) {
+						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+						
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular: new THREE.Color(0x0000ff)});
+						//geometry.scale(1/10,1/10,1/10);
+						var mesh = new THREE.Mesh( geometry, material );		
+						arrow.add(mesh);
+					}
+				);
+				
+				scene.add(arrow);
+				arrow.position.set(-7,1.05,10);
+				arrow.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
+				
+				
+				
 				arrow1 = new THREE.Object3D();
 				
 				loader.load(
@@ -343,7 +365,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffd700), specular: new THREE.Color(0xffffff), shininess:5});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x0000ff), specular: new THREE.Color(0x0000ff)});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow1.add(mesh);
@@ -351,7 +373,7 @@
 				);
 				
 				scene.add(arrow1);
-				arrow1.position.set(1,1.05,9);
+				arrow1.position.set(1,1.05,8);
 				arrow1.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				arrow2 = new THREE.Object3D();
@@ -363,7 +385,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffd700), specular: new THREE.Color(0xffffff)});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x551a8b), specular: new THREE.Color(0xff0000)});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow2.add(mesh);
@@ -371,9 +393,50 @@
 				);
 				
 				scene.add(arrow2);
-				arrow2.position.set(3,1.05,11);
+				arrow2.position.set(3,1.05,10);
 				arrow2.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
+				
+				arrow3 = new THREE.Object3D();
+				
+				loader.load(
+					// Path dell'oggetto da caricare in formato json
+					'models/sign.json',
+					// Funzione da richiamare quando l'oggetto è caricato
+					function ( geometry) {
+						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+						
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular: new THREE.Color(0xff0000)});
+						//geometry.scale(1/10,1/10,1/10);
+						var mesh = new THREE.Mesh( geometry, material );		
+						arrow3.add(mesh);
+					}
+				);
+				
+				scene.add(arrow3);
+				arrow3.position.set(10,1.05,10);
+				arrow3.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
+				
+				
+				arrow4 = new THREE.Object3D();
+				
+				loader.load(
+					// Path dell'oggetto da caricare in formato json
+					'models/sign.json',
+					// Funzione da richiamare quando l'oggetto è caricato
+					function ( geometry) {
+						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+						
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), specular: new THREE.Color(0x00ff00)});
+						//geometry.scale(1/10,1/10,1/10);
+						var mesh = new THREE.Mesh( geometry, material );		
+						arrow4.add(mesh);
+					}
+				);
+				
+				scene.add(arrow4);
+				arrow4.position.set(8,1.05,12);
+				arrow4.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 			}
 			
 			
