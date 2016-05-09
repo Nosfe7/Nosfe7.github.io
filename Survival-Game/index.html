@@ -343,7 +343,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular: new THREE.Color(0x0000ff)});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular: new THREE.Color(0x00ff00), shininess:100});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow.add(mesh);
@@ -363,9 +363,9 @@
 					'models/sign.json',
 					// Funzione da richiamare quando l'oggetto è caricato
 					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x0000ff), specular: new THREE.Color(0x0000ff)});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), shininess : 0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow1.add(mesh);
@@ -376,16 +376,16 @@
 				arrow1.position.set(1,1.05,8);
 				arrow1.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
-				arrow2 = new THREE.Object3D();
+				arrow2 = new THREE.Object3D();0xffff00
 				
 				loader.load(
 					// Path dell'oggetto da caricare in formato json
 					'models/sign.json',
 					// Funzione da richiamare quando l'oggetto è caricato
 					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x551a8b), specular: new THREE.Color(0xff0000)});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00), specular:new THREE.Color(0Xff0000), shininess : 100});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow2.add(mesh);
@@ -397,6 +397,8 @@
 				arrow2.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				
+				
+				
 				arrow3 = new THREE.Object3D();
 				
 				loader.load(
@@ -404,9 +406,9 @@
 					'models/sign.json',
 					// Funzione da richiamare quando l'oggetto è caricato
 					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular: new THREE.Color(0xff0000)});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff7700)});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow3.add(mesh);
@@ -414,9 +416,8 @@
 				);
 				
 				scene.add(arrow3);
-				arrow3.position.set(10,1.05,10);
-				arrow3.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
+				arrow3.position.set(10,1.05,8);
+				arrow3.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				arrow4 = new THREE.Object3D();
 				
@@ -425,9 +426,9 @@
 					'models/sign.json',
 					// Funzione da richiamare quando l'oggetto è caricato
 					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
+
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), specular: new THREE.Color(0x00ff00)});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ffff)});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow4.add(mesh);
@@ -435,8 +436,31 @@
 				);
 				
 				scene.add(arrow4);
-				arrow4.position.set(8,1.05,12);
-				arrow4.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
+				arrow4.position.set(12,1.05,10);
+				arrow4.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
+				
+				arrow5 = new THREE.Object3D();
+				
+				loader.load(
+					// Path dell'oggetto da caricare in formato json
+					'models/sign.json',
+					// Funzione da richiamare quando l'oggetto è caricato
+					function ( geometry) {
+
+						
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000)});
+						//geometry.scale(1/10,1/10,1/10);
+						var mesh = new THREE.Mesh( geometry, material );		
+						arrow5.add(mesh);
+					}
+				);
+				
+				scene.add(arrow5);
+				arrow5.position.set(10,1.05,12);
+				arrow5.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
+				
+				
+			
 			}
 			
 			
