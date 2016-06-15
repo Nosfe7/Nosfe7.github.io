@@ -93,9 +93,11 @@
 
 			var playerBB;
 			var wallBB;
+			var wall2BB;
 			var wallsBBs;
 			
 			var level1WallsPos;
+			var level2WallsPos;
 			
 		
 		
@@ -154,7 +156,31 @@
 								  new THREE.Vector3(8,2,17), new THREE.Vector3(10,2,17), new THREE.Vector3(12,2,15),
 								  new THREE.Vector3(12,2,13), new THREE.Vector3(14,2,13), new THREE.Vector3(16,2,11),
 								  new THREE.Vector3(16,2,9), new THREE.Vector3(14,2,7), new THREE.Vector3(14,2,5),
-								  new THREE.Vector3(10,2,3)];
+								  new THREE.Vector3(12,2,3)];
+								  
+				
+								  
+				//Posizioni muri livello 2
+				
+				level2WallsPos = [new THREE.Vector3(12,2,1), new THREE.Vector3(10,2,-3), new THREE.Vector3(12, 2, -3),
+								  new THREE.Vector3(12,2,-5), new THREE.Vector3(14,2,-7), new THREE.Vector3(16,2,-7),
+								  new THREE.Vector3(18,2,-7), new THREE.Vector3(20,2,-5),new THREE.Vector3(16,2,-3), 
+								  new THREE.Vector3(18,2,-3),
+								  new THREE.Vector3(20,2,-3), new THREE.Vector3(22,2,-3), new THREE.Vector3(22,2,-5),
+								  new THREE.Vector3(22,2,-7), new THREE.Vector3(24,2,-9), new THREE.Vector3(26,2,-7),
+								  new THREE.Vector3(26,2,-5), new THREE.Vector3(26,2,-3), new THREE.Vector3(26,2,-1), 
+								  new THREE.Vector3(26,2,1), new THREE.Vector3(26,2,3), new THREE.Vector3(24,2,5), 
+								  new THREE.Vector3(24,2,7), new THREE.Vector3(24,2,9), new THREE.Vector3(26,2,9),
+								  new THREE.Vector3(26,2,13), new THREE.Vector3(24,2,13), new THREE.Vector3(22,2,13),
+								  new THREE.Vector3(20,2,13), new THREE.Vector3(18,2,13), new THREE.Vector3(16,2,13), 
+								  new THREE.Vector3(14,2,11), new THREE.Vector3(16,2,9), new THREE.Vector3(18,2,9),
+								  new THREE.Vector3(20,2,9), new THREE.Vector3(20,2,7), new THREE.Vector3(20,2,5),
+								  new THREE.Vector3(18,2,5), new THREE.Vector3(16,2,5), new THREE.Vector3(14,2,5), 
+								  new THREE.Vector3(12,2,3), new THREE.Vector3(14,2,1), new THREE.Vector3(16,2,1),
+								  new THREE.Vector3(18,2,1), new THREE.Vector3(20,2,1), new THREE.Vector3(22,2,1)];
+								  
+				
+				
 								  
 				
 				//Piano
@@ -178,7 +204,7 @@
 				scene.add(plane);
 				
 				
-				//Muro principale (uscita dalla stanza)
+				//Caricamento muri
 				var geometry = new THREE.BoxGeometry (2, 2, 2);
 
 				
@@ -194,18 +220,6 @@
 				bump.wrapT = THREE.RepeatWrapping;
 				bump.repeat.set( 4, 4);
 				
-				
-				var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
-				cube = new THREE.Mesh(geometry,transparentMaterial);	
-
-				scene.add(cube);
-				cube.position.set(12,2,3); 
-				
-				//collider tramite un boundary box,
-				wallBB = new THREE.Box3().setFromCenterAndSize(cube.position, new THREE.Vector3(4,4,4));
-				
-
-				//Muri prima stanza 
 
 				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2} );
 				
@@ -220,14 +234,45 @@
 					
 					scene.add(wall);
 					
-					//wall.position.set(level1WallsPos[0]);
-					
 					wall.position.x = level1WallsPos[i].x;
 					wall.position.y = level1WallsPos[i].y;
 					wall.position.z = level1WallsPos[i].z;
 					
 					wallsBBs.push(new THREE.Box3().setFromCenterAndSize(wall.position, new THREE.Vector3(2,2,2)));
 				}
+				
+				for (i=0; i< level2WallsPos.length; i++) {
+					
+					wall = new THREE.Mesh(
+						geometry,
+						material);
+					
+					scene.add(wall);
+					
+					wall.position.x = level2WallsPos[i].x;
+					wall.position.y = level2WallsPos[i].y;
+					wall.position.z = level2WallsPos[i].z;
+					
+					wallsBBs.push(new THREE.Box3().setFromCenterAndSize(wall.position, new THREE.Vector3(2,2,2)));
+				}
+				
+				//Muro uscita stanza 1
+				var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+				cube = new THREE.Mesh(geometry,transparentMaterial);	
+
+				scene.add(cube);
+				cube.position.set(10,2,3); 
+				
+				//Muro uscita stanza 2
+				var transparentMaterial2 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+				cube2 = new THREE.Mesh(geometry,transparentMaterial2);	
+
+				scene.add(cube2);
+				cube2.position.set(28,2,11);
+				
+				//colliders muri uscita boundary box,
+				wallBB = new THREE.Box3().setFromCenterAndSize(cube.position, new THREE.Vector3(4,4,4));
+				wall2BB = new THREE.Box3().setFromCenterAndSize(cube2.position, new THREE.Vector3(4,4,4));
 				
 
 
@@ -283,17 +328,12 @@
 				);
 				
 				
-				
-				
-				
-				
+								
 				
 				//Gerarchia: camera -> bounding box e camera->torcia->luce e fiamma
 				camera.add(torch);
 				torch.position.set(-0.1,-0.35,-0.65);
-				
-				
-				
+
 				
 				
 				//Fiamma
@@ -331,9 +371,10 @@
 				timer = new THREE.Clock(true);
 				
 				
-				//INDIZI: LIVELLO 1
+				//INDIZI
 				
-				//Freccie
+				
+				//Livello 1
 				arrow = new THREE.Object3D();
 				
 				loader.load(
@@ -419,25 +460,6 @@
 				arrow3.position.set(10,1.05,8);
 				arrow3.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
-				arrow4 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ffff)});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow4.add(mesh);
-					}
-				);
-				
-				scene.add(arrow4);
-				arrow4.position.set(12,1.05,10);
-				arrow4.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				arrow5 = new THREE.Object3D();
 				
@@ -446,8 +468,6 @@
 					'models/sign.json',
 					// Funzione da richiamare quando l'oggetto è caricato
 					function ( geometry) {
-
-						
 						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000)});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
@@ -497,21 +517,37 @@
 				/il muro principale diventa gradualmente trasparente e poi viene rimosso dalla scena*/
 				
 				
-				for (i=0; i<scene.children.length; i++) //controlla prima se il cubo esiste ancora nella scena 
+				for (i=0; i<scene.children.length; i++){ //controlla prima se il cubo esiste ancora nella scena 
 					if (scene.children[i] == cube){
 						
 				
 						if (playerBB.isIntersectionBox(wallBB) && frustum.intersectsObject(cube)){
 							cube.material.opacity -= 0.03;
 							
-		;					
+						
 							if (cube.material.opacity <= 0){
 								cube.material.opacity = 0;
 								scene.remove(cube);
 							}
 							
 						}
-					}	
+					}
+					
+					if (scene.children[i] == cube2){
+						
+				
+						if (playerBB.isIntersectionBox(wall2BB) && frustum.intersectsObject(cube2)){
+							cube2.material.opacity -= 0.03;
+							
+						
+							if (cube2.material.opacity <= 0){
+								cube2.material.opacity = 0;
+								scene.remove(cube2);
+							}
+							
+						}
+					}
+				}					
 
 				
 				

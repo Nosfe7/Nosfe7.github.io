@@ -23,7 +23,7 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 
 		//Shaders 
 		uniforms = {
-			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire.png')},
+			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire5.png')},
 			emitterPosition: {type: 'v3', value : pos},
 			opacity: {type: 'f', value:0.1}
 		};
