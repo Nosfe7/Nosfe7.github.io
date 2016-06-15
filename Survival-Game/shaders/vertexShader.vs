@@ -1,4 +1,4 @@
-precision mediump float;
+﻿precision mediump float;
 
 // matrice di modellazione e di vista
 uniform mat4 modelViewMatrix;
@@ -22,7 +22,7 @@ void main() {
 	float dist = distance(emitterPosition, position);
 
 	
-	gl_PointSize =  size / pow(dist, 4.0);
+	gl_PointSize =  size / pow(dist, 1.0);
 	
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 
