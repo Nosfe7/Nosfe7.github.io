@@ -2,7 +2,7 @@ function getRandomFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
+function FlameParticleEngine(pCount, s, pos, emitter, height, width, opacity) {
 
 	var particleSystem, particlesCount, pMaterial;
 	var flameSpeed = 0;
@@ -10,6 +10,8 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 	
 	this.height = height;
 	this. width = width;
+	
+	this.opacity = opacity;
 
 	this.init = function() {
 	
@@ -23,9 +25,9 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 
 		//Shaders 
 		uniforms = {
-			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire5.png')},
+			texture: {type: 't', value : THREE.ImageUtils.loadTexture('textures/fire9.png')},
 			emitterPosition: {type: 'v3', value : pos},
-			opacity: {type: 'f', value:0.1}
+			opacity: {type: 'f', value:this.opacity}
 		};
 		
 
@@ -126,12 +128,16 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width) {
 	
 	  if (loaded && flameSpeed%5 == 0) {
 		  
-			this.height -= 0.000001;
-			
+		 this.height -= 0.00005;
+		
+		 if (this.height <= 0.75)
+			this.height = 0.75;
 
-			pMaterial.uniforms.opacity.value -=0.00001;
+		 this.opacity-=0.00005;
+		 pMaterial.uniforms.opacity.value = this.opacity;
 
-		  
+		 if (pMaterial.uniforms.opacity.value <= 0)
+			 pMaterial.uniforms.opacity.value = 0;
 		  
 		  var counter = particlesCount - 1;
 		  

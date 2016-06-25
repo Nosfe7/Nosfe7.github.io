@@ -84,7 +84,7 @@
 			var cube;
 			var cube2
 			var scene, renderer;
-			var light, radiusModifier;
+			var light, originalRadius = 8;
 			var torch; 
 			var stats; 
 			var speed; 
@@ -99,22 +99,24 @@
 			var level1WallsPos;
 			var level2WallsPos;
 			
+			var text;
 		
 		
 			init();
 			animate();
 		
 
-			//controlla la distanza di propagazione della luce
-			function lightControl(radius){
+			//controlla la distanza propagazione della luce, sulla base della dimensione della fiamma
+			function lightControl(radius, flameHeight){
 			
-	
-				radius -= 0.000000002;
+				var modifier = (flameHeight * 10) - 7.5;
 			
-				if (radius <= 0)
-					radius = 0;
+				if (modifier <= 0)
+					modifier = 0;
 					
-				return radius
+				radius = originalRadius * (modifier * 2);
+					
+				return radius;
 			
 			}
 			
@@ -143,9 +145,9 @@
 								  new THREE.Vector3(-6,2,3), new THREE.Vector3(-4,2,5), new THREE.Vector3(-2, 2, 5),
 								  new THREE.Vector3(-4, 2, 7), new THREE.Vector3(-2, 2, 7), new THREE.Vector3(4,2,-1),
 								  new THREE.Vector3(6,2,-1), new THREE.Vector3(8,2,-3), new THREE.Vector3(8,2,-1),
-								  new THREE.Vector3(8,2,1), new THREE.Vector3(8,2,3), new THREE.Vector3(8,2,5), 
+								  new THREE.Vector3(6,2,3), new THREE.Vector3(6,2,1),
 								  new THREE.Vector3(6,2,5), new THREE.Vector3(4,2,5), new THREE.Vector3(4,2,5),
-								  new THREE.Vector3(4,2,7), new THREE.Vector3(6,2,7), new THREE.Vector3(8,2,7),
+								  new THREE.Vector3(4,2,7), new THREE.Vector3(6,2,7),
 								  new THREE.Vector3(-8,2,7), new THREE.Vector3(-10,2,7), new THREE.Vector3(-12,2,7), 
 								  new THREE.Vector3(-14,2,9), new THREE.Vector3(-14,2,11), new THREE.Vector3(-12,2,13), 
 								  new THREE.Vector3(-10,2,13), new THREE.Vector3(-10,2,15), new THREE.Vector3(-10,2,17), 
@@ -157,7 +159,7 @@
 								  new THREE.Vector3(10,2,21), new THREE.Vector3(12,2,19), new THREE.Vector3(12,2,17), 
 								  new THREE.Vector3(12,2,15), new THREE.Vector3(12,2,13), new THREE.Vector3(14,2,13), 
 								  new THREE.Vector3(14,2,11), new THREE.Vector3(14,2,9), new THREE.Vector3(14,2,7), 
-								  new THREE.Vector3(14,2,5), new THREE.Vector3(12,2,3)];
+								  new THREE.Vector3(14,2,5), new THREE.Vector3(12,2,3), new THREE.Vector3(10,2,3)];
 								  
 				
 								  
@@ -265,7 +267,7 @@
 				cube = new THREE.Mesh(geometry,transparentMaterial);	
 
 				scene.add(cube);
-				cube.position.set(10,2,3); 
+				cube.position.set(8,2,3); 
 				
 				//Muro uscita stanza 2
 				var transparentMaterial2 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
@@ -294,7 +296,7 @@
 				
 				controls = new FPSControls(camera,speed);
 				
-				controls.PLObject.position.set(12,2,-1); 
+				controls.PLObject.position.set(-7,2,17); 
 				
 				scene.add(controls.PLObject);
 
@@ -303,7 +305,7 @@
 				camera2.position.set(1,1,4);*/
 				
 				//Luce
-				light = new THREE.PointLight( 0xFFB90F,1,5,2);
+				light = new THREE.PointLight( 0xFFB90F,1,originalRadius,2);
 				
 				/*light.shadowDarkness = 0.5;
 				light.castShadow = true;
@@ -346,8 +348,9 @@
 				
 				var flameHeight = 0.8;
 				var flameWidth = 0.012;
+				var flameOpacity = 0.05;
 				
-				particleEngine = new FlameParticleEngine(500, 30, flamePos, torch, flameHeight, flameWidth );
+				particleEngine = new FlameParticleEngine(1500, 35, flamePos, torch, flameHeight, flameWidth, flameOpacity);
 
 				
 				particleEngine.init();
@@ -461,7 +464,7 @@
 				);
 				
 				scene.add(arrow3);
-				arrow3.position.set(10,1.05,8);
+				arrow3.position.set(8,1.05,8);
 				arrow3.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				
@@ -495,7 +498,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), specular: new THREE.Color(0xff0000), shininess:100});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), shininess:0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow6.add(mesh);
@@ -515,10 +518,10 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000),  shininess:100});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00),  shininess:0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
-						arrow7.add(mesh);
+						arrow7.add(mesh);0xff0000
 					}
 				);
 				
@@ -536,7 +539,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00),  shininess:100});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xFF8000),  shininess:0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow8.add(mesh);
@@ -550,13 +553,13 @@
 				arrow9 = new THREE.Object3D();
 				
 				loader.load(
-					// Path dell'oggetto da caricare in formato json
+					// Path dell'oggetto da caricare in formato json0xff0000
 					'models/sign.json',
 					// Funzione da richiamare quando l'oggetto è caricato
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xFF8000), specular: new THREE.Color(0x32cd32),  shininess:100});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), shininess:0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow9.add(mesh);
@@ -648,6 +651,21 @@
 				arrow13.position.set(20,1.05,11);
 				//arrow13.rotation.y+= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 			
+			
+			
+				//HUD
+				text = document.createElement('div');
+				document.body.appendChild(text);
+				
+				text.style.position = 'absolute';
+				text.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+				text.style.width = "200px";
+				text.style.height = "200px";
+				text.style.color = "red";
+				text.innerHTML = "";
+				text.style.top = 600/2 + 'px';
+				text.style.left = 1775/2 + 'px';
+			
 			}
 			
 			
@@ -680,21 +698,33 @@
 					playerBB = new THREE.Box3().setFromCenterAndSize(controls.PLObject.position, new THREE.Vector3(1,1,1));
 
 				
-				/*se c'è intersezione con entrambi (il giocatore è di fronte al muro principale e vicino ad esso, 
-				/il muro principale diventa gradualmente trasparente e poi viene rimosso dalla scena*/
+				/*se c'è intersezione con entrambi (il giocatore è di fronte al muro di uscita e vicino ad esso, 
+				/il muro di uscita diventa gradualmente trasparente e poi viene rimosso dalla scena*/
 				
 				
 				for (i=0; i<scene.children.length; i++){ //controlla prima se il cubo esiste ancora nella scena 
+					
 					if (scene.children[i] == cube){
+						
 						
 				
 						if (playerBB.isIntersectionBox(wallBB) && frustum.intersectsObject(cube)){
+							
+							
+							
+							//Diminiusco l'opacità finchè non diventa trasparente
 							cube.material.opacity -= 0.03;
 							
 						
 							if (cube.material.opacity <= 0){
 								cube.material.opacity = 0;
 								scene.remove(cube);
+											
+											//LIVELLO SUCCESSIVO
+								// La torcia si ricarica all'ingresso della nuova stanza
+								light.distance = originalRadius;
+								particleEngine.height = 0.8;
+								particleEngine.opacity = 0.05;
 							}
 							
 						}
@@ -704,12 +734,20 @@
 						
 				
 						if (playerBB.isIntersectionBox(wall2BB) && frustum.intersectsObject(cube2)){
-							cube2.material.opacity -= 0.03;
 							
-						
+							
+							//Diminiusco l'opacità finchè non diventa trasparente
+							cube2.material.opacity -= 0.03;
+		
 							if (cube2.material.opacity <= 0){
 								cube2.material.opacity = 0;
 								scene.remove(cube2);
+										
+										//LIVELLO SUCCESSIVO
+								// La torcia si ricarica all'ingresso della nuova stanza
+								light.distance = originalRadius;
+								particleEngine.height = 0.8;
+								particleEngine.opacity = 0.05;
 							}
 							
 						}
@@ -772,14 +810,69 @@
 			
 
 				//Luce
-				radiusModifier = lightControl(radiusModifier);
+				light.distance = lightControl(light.distance, particleEngine.height);
 			
 			
-				light.distance *=radiusModifier;
+				//light.distance *=radiusModifier;
 			
 
 				//Intensità della luce è modificata da una funzione coseno per dare un effetto di lampeggiamento
 				light.intensity = (Math.cos(timer.getElapsedTime()*(20))/(10)) + 1;
+				
+									//GAME OVER
+				//Quando la luce va a zero è game over: re-inizializzo alcune variabili importanti del gioco
+				if (light.distance <= 0.25){
+					
+					
+					if (light.distance <=0){
+					
+						//Luce
+						light.distance = originalRadius;
+						particleEngine.height = 0.8;
+						particleEngine.opacity = 0.05;
+
+						//Controlli FPS
+						controls.PLObject.position.set(-7,2,17); 
+						controls.PLObject.rotation.set(0,0,0);
+						
+						//Muri uscita
+						//stanza 1
+						var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+						cube = new THREE.Mesh(geometry,transparentMaterial);	
+
+						scene.add(cube);
+						cube.position.set(8,2,3); 
+						
+						//stanza 2
+						var transparentMaterial2 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+						cube2 = new THREE.Mesh(geometry,transparentMaterial2);	
+
+						scene.add(cube2);
+						cube2.position.set(28,2,11);
+						
+						//HUD
+						document.body.removeChild(text);
+						text = document.createElement('div');
+						document.body.appendChild(text);
+						
+						text.style.position = 'absolute';
+						text.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
+						text.style.width = "200px";
+						text.style.height = "200px";
+						text.style.color = "red";
+						text.innerHTML = "";
+						text.style.top = 600/2 + 'px';
+						text.style.left = 1775/2 + 'px';
+					}
+					
+					else{
+						
+						text.innerHTML = "GAME OVER";
+						
+					
+					}
+					
+				}
 
             }
 			
