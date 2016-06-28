@@ -98,6 +98,8 @@
 			
 			var level1WallsPos;
 			var level2WallsPos;
+			var level3WalssPos;
+			
 			
 			var text;
 		
@@ -186,6 +188,55 @@
 								  new THREE.Vector3(18,2,1), new THREE.Vector3(20,2,1), new THREE.Vector3(22,2,1)];
 								  
 				
+				//Posizioni muri livello 3
+				
+				level3WallsPos = [new THREE.Vector3(28,2,13), new THREE.Vector3(28,2,15), new THREE.Vector3(28,2,17), 
+								  new THREE.Vector3(28,2,19), new THREE.Vector3(30,2,19), new THREE.Vector3(32,2,19),
+								  new THREE.Vector3(34,2,19), new THREE.Vector3(36,2,19), new THREE.Vector3(38,2,19),
+								  new THREE.Vector3(40,2,19), new THREE.Vector3(40,2,21), new THREE.Vector3(40,2,23),
+								  new THREE.Vector3(40,2,25), new THREE.Vector3(38,2,25), new THREE.Vector3(36,2,25),
+								  new THREE.Vector3(34,2,25), new THREE.Vector3(32,2,25), new THREE.Vector3(30,2,25),
+								  new THREE.Vector3(28,2,25), new THREE.Vector3(26,2,25), new THREE.Vector3(24,2,25),
+								  new THREE.Vector3(22,2,27), new THREE.Vector3(22,2,29), new THREE.Vector3(24,2,31),
+								  new THREE.Vector3(26,2,31), new THREE.Vector3(28,2,31), new THREE.Vector3(30,2,31),
+								  new THREE.Vector3(30,2,33), new THREE.Vector3(30,2,35), new THREE.Vector3(30,2,37),
+								  new THREE.Vector3(28,2,37), new THREE.Vector3(26,2,37), new THREE.Vector3(24,2,37),
+								  new THREE.Vector3(22,2,37), new THREE.Vector3(20,2,39), new THREE.Vector3(22,2,41),
+								  new THREE.Vector3(24,2,41), new THREE.Vector3(26,2,41), new THREE.Vector3(28,2,41),
+								  new THREE.Vector3(30,2,41), new THREE.Vector3(30,2,43), new THREE.Vector3(30,2,45),
+								  new THREE.Vector3(32,2,47), new THREE.Vector3(34,2,45), new THREE.Vector3(34,2,43),
+								  new THREE.Vector3(34,2,41), new THREE.Vector3(38,2,45), new THREE.Vector3(38,2,43),
+								  new THREE.Vector3(38,2,41), new THREE.Vector3(38,2,39), new THREE.Vector3(38,2,41),
+								  new THREE.Vector3(38,2,39), new THREE.Vector3(38,2,37), new THREE.Vector3(36,2,37), 
+								  new THREE.Vector3(34,2,37), new THREE.Vector3(34,2,35), new THREE.Vector3(34,2,33),
+								  new THREE.Vector3(34,2,31), new THREE.Vector3(36,2,31), new THREE.Vector3(38,2,31),
+								  new THREE.Vector3(40,2,31), new THREE.Vector3(40,2,33), new THREE.Vector3(40,2,35),
+								  new THREE.Vector3(40,2,37), new THREE.Vector3(42,2,39), new THREE.Vector3(44,2,37),
+								  new THREE.Vector3(44,2,35), new THREE.Vector3(44,2,33), new THREE.Vector3(44,2,31),
+								  new THREE.Vector3(46,2,31), new THREE.Vector3(48,2,31), new THREE.Vector3(50,2,31),
+								  new THREE.Vector3(52,2,29), new THREE.Vector3(52,2,27), new THREE.Vector3(50,2,25),
+								  new THREE.Vector3(48,2,25), new THREE.Vector3(46,2,25), new THREE.Vector3(44,2,25),
+								  new THREE.Vector3(44,2,23), new THREE.Vector3(44,2,21), new THREE.Vector3(44,2,19), 
+								  new THREE.Vector3(46,2,19), new THREE.Vector3(48,2,19), new THREE.Vector3(50,2,19),
+								  new THREE.Vector3(52,2,19), new THREE.Vector3(54,2,17), new THREE.Vector3(52,2,15),
+								  new THREE.Vector3(50,2,15), new THREE.Vector3(48,2,15), new THREE.Vector3(46,2,15),
+								  new THREE.Vector3(46,2,15), new THREE.Vector3(44,2,15), new THREE.Vector3(42,2,15),
+								  new THREE.Vector3(40,2,15), new THREE.Vector3(38,2,15), new THREE.Vector3(36,2,15),
+								  new THREE.Vector3(34,2,15), new THREE.Vector3(34,2,13), new THREE.Vector3(36,2,13),
+								  new THREE.Vector3(38,2,13), new THREE.Vector3(40,2,13), new THREE.Vector3(42,2,13),
+								  new THREE.Vector3(44,2,13), new THREE.Vector3(46,2,13), new THREE.Vector3(48,2,13), 
+								  new THREE.Vector3(50,2,13), new THREE.Vector3(52,2,13), new THREE.Vector3(54,2,11),
+								  new THREE.Vector3(54,2,9), new THREE.Vector3(52,2,7), new THREE.Vector3(50,2,7),
+								  new THREE.Vector3(48,2,7), new THREE.Vector3(48,2,5), new THREE.Vector3(48,2,3),
+								  new THREE.Vector3(48,2,1), new THREE.Vector3(46,2,-1), new THREE.Vector3(44,2,-1),
+								  new THREE.Vector3(42,2,1), new THREE.Vector3(42,2,3), new THREE.Vector3(42,2,5),
+								  new THREE.Vector3(42,2,7), new THREE.Vector3(40,2,7), new THREE.Vector3(38,2,7),
+								  new THREE.Vector3(36,2,7), new THREE.Vector3(34,2,7), new THREE.Vector3(34,2,5),
+								  new THREE.Vector3(34,2,3), new THREE.Vector3(36,2,3), new THREE.Vector3(38,2,3),
+								  new THREE.Vector3(40,2,3), new THREE.Vector3(40,2,-1), new THREE.Vector3(38,2,-1),
+								  new THREE.Vector3(34,2,-1), new THREE.Vector3(32,2,-1), new THREE.Vector3(30,2,-1),
+								  new THREE.Vector3(28,2,1), new THREE.Vector3(28,2,3), new THREE.Vector3(28,2,5), 
+								  new THREE.Vector3(28,2,7), new THREE.Vector3(28,2,9)];
 				
 								  
 				
@@ -262,6 +313,21 @@
 					wallsBBs.push(new THREE.Box3().setFromCenterAndSize(wall.position, new THREE.Vector3(2,2,2)));
 				}
 				
+				for (i=0; i< level3WallsPos.length; i++) {
+					
+					wall = new THREE.Mesh(
+						geometry,
+						material);
+					
+					scene.add(wall);
+					
+					wall.position.x = level3WallsPos[i].x;
+					wall.position.y = level3WallsPos[i].y;
+					wall.position.z = level3WallsPos[i].z;
+					
+					wallsBBs.push(new THREE.Box3().setFromCenterAndSize(wall.position, new THREE.Vector3(2,2,2)));
+				}
+				
 				//Muro uscita stanza 1
 				var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
 				cube = new THREE.Mesh(geometry,transparentMaterial);	
@@ -296,7 +362,7 @@
 				
 				controls = new FPSControls(camera,speed);
 				
-				controls.PLObject.position.set(-7,2,17); 
+				controls.PLObject.position.set(24,2,11); 
 				
 				scene.add(controls.PLObject);
 
@@ -349,8 +415,9 @@
 				var flameHeight = 0.8;
 				var flameWidth = 0.012;
 				var flameOpacity = 0.05;
+				var flameDecay = 0.00005;
 				
-				particleEngine = new FlameParticleEngine(1500, 35, flamePos, torch, flameHeight, flameWidth, flameOpacity);
+				particleEngine = new FlameParticleEngine(1500, 35, flamePos, torch, flameHeight, flameWidth, flameOpacity,flameDecay);
 
 				
 				particleEngine.init();
@@ -725,6 +792,7 @@
 								light.distance = originalRadius;
 								particleEngine.height = 0.8;
 								particleEngine.opacity = 0.05;
+								
 							}
 							
 						}
@@ -748,6 +816,8 @@
 								light.distance = originalRadius;
 								particleEngine.height = 0.8;
 								particleEngine.opacity = 0.05;
+								particleEngine.decay = 0.0000;
+								
 							}
 							
 						}
@@ -834,6 +904,9 @@
 						//Controlli FPS
 						controls.PLObject.position.set(-7,2,17); 
 						controls.PLObject.rotation.set(0,0,0);
+						
+						//Fiamma
+						particleEngine.decay = 0.00005;
 						
 						//Muri uscita
 						//stanza 1

@@ -2,7 +2,7 @@ function getRandomFloat(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-function FlameParticleEngine(pCount, s, pos, emitter, height, width, opacity) {
+function FlameParticleEngine(pCount, s, pos, emitter, height, width, opacity, decay) {
 
 	var particleSystem, particlesCount, pMaterial;
 	var flameSpeed = 0;
@@ -12,6 +12,8 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width, opacity) {
 	this. width = width;
 	
 	this.opacity = opacity;
+	
+	this.decay = decay;
 
 	this.init = function() {
 	
@@ -128,12 +130,12 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width, opacity) {
 	
 	  if (loaded && flameSpeed%5 == 0) {
 		  
-		 this.height -= 0.00005;
+		 this.height -= this.decay;
 		
 		 if (this.height <= 0.75)
 			this.height = 0.75;
 
-		 this.opacity-=0.00005;
+		 this.opacity -= this.decay;
 		 pMaterial.uniforms.opacity.value = this.opacity;
 
 		 if (pMaterial.uniforms.opacity.value <= 0)
@@ -156,7 +158,7 @@ function FlameParticleEngine(pCount, s, pos, emitter, height, width, opacity) {
 			
 			//Vettore velocità 
 			
-			velocity = new THREE.Vector3(0, Math.random()/20, 0); 
+			velocity = new THREE.Vector3(getRandomFloat(-this.width/3,this.width/3), Math.random()/20, getRandomFloat(-this.width/3,this.width/3)); 
 			
 			
 			var newPartPos = new THREE.Vector3(partPos.x,partPos.y,partPos.z);
