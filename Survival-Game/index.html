@@ -54,6 +54,7 @@
 				cursor: pointer;
 
 			}
+			
 		</style>
 	</head>
 	<body>
@@ -76,6 +77,8 @@
 
 		</div>
 		
+		
+		
 		<script>
 		
 			 // variabili globali per la camera, la scena, luce, ecc..
@@ -85,6 +88,7 @@
 			var cube2
 			var scene, renderer;
 			var light, originalRadius = 8;
+			var ambientLight;
 			var torch; 
 			var stats; 
 			var speed; 
@@ -100,8 +104,10 @@
 			var level2WallsPos;
 			var level3WalssPos;
 			
+			var meshes;
 			
 			var text;
+			var textCountDown; 
 		
 		
 			init();
@@ -281,7 +287,7 @@
 				var material = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2} );
 				
 				wallsBBs = new Array();
-				
+				meshes = new Array();
 				
 				for (i=0; i< level1WallsPos.length; i++) {
 					
@@ -290,6 +296,8 @@
 						material);
 					
 					scene.add(wall);
+					
+					meshes.push(wall);
 					
 					wall.position.x = level1WallsPos[i].x;
 					wall.position.y = level1WallsPos[i].y;
@@ -306,6 +314,8 @@
 					
 					scene.add(wall);
 					
+					meshes.push(wall);
+					
 					wall.position.x = level2WallsPos[i].x;
 					wall.position.y = level2WallsPos[i].y;
 					wall.position.z = level2WallsPos[i].z;
@@ -321,6 +331,8 @@
 					
 					scene.add(wall);
 					
+					meshes.push(wall);
+					
 					wall.position.x = level3WallsPos[i].x;
 					wall.position.y = level3WallsPos[i].y;
 					wall.position.z = level3WallsPos[i].z;
@@ -334,6 +346,7 @@
 
 				scene.add(cube);
 				cube.position.set(8,2,3); 
+				meshes.push(cube);
 				
 				//Muro uscita stanza 2
 				var transparentMaterial2 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
@@ -341,6 +354,7 @@
 
 				scene.add(cube2);
 				cube2.position.set(28,2,11);
+				meshes.push(cube2);
 				
 				//colliders muri uscita boundary box,
 				wallBB = new THREE.Box3().setFromCenterAndSize(cube.position, new THREE.Vector3(4,4,4));
@@ -362,7 +376,7 @@
 				
 				controls = new FPSControls(camera,speed);
 				
-				controls.PLObject.position.set(24,2,11); 
+				controls.PLObject.position.set(-7,2,17); 
 				
 				scene.add(controls.PLObject);
 
@@ -371,7 +385,11 @@
 				camera2.position.set(1,1,4);*/
 				
 				//Luce
-				light = new THREE.PointLight( 0xFFB90F,1,originalRadius,2);
+				light = new THREE.PointLight( 0xFFB90F,5,originalRadius,2);
+				
+				/*ambientLight = new THREE.AmbientLight( 0x111000 );
+				scene.add(ambientLight);*/
+				
 				
 				/*light.shadowDarkness = 0.5;
 				light.castShadow = true;
@@ -415,9 +433,9 @@
 				var flameHeight = 0.8;
 				var flameWidth = 0.012;
 				var flameOpacity = 0.05;
-				var flameDecay = 0.00005;
+				var flameDecay = 0.00003;
 				
-				particleEngine = new FlameParticleEngine(1500, 35, flamePos, torch, flameHeight, flameWidth, flameOpacity,flameDecay);
+				particleEngine = new FlameParticleEngine(500, 30, flamePos, torch, flameHeight, flameWidth, flameOpacity,flameDecay);
 
 				
 				particleEngine.init();
@@ -500,7 +518,7 @@
 					function ( geometry) {
 
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00), specular:new THREE.Color(0Xff0000), shininess : 100});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00), specular:new THREE.Color(0Xff0000), shininess : 200});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow2.add(mesh);
@@ -531,7 +549,7 @@
 				);
 				
 				scene.add(arrow3);
-				arrow3.position.set(8,1.05,8);
+				arrow3.position.set(8,1.05,7.5);
 				arrow3.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				
@@ -550,7 +568,7 @@
 				);
 				
 				scene.add(arrow5);
-				arrow5.position.set(8,1.05,12);
+				arrow5.position.set(8,1.05,11.5);
 				arrow5.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 				
 				
@@ -565,7 +583,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), shininess:0});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular:new THREE.Color(0x00ff00), shininess:100});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow6.add(mesh);
@@ -606,7 +624,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xFF8000),  shininess:0});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), shininess:0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow8.add(mesh);
@@ -626,7 +644,7 @@
 					function ( geometry) {
 						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
 						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), shininess:0});
+						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), shininess:0});
 						//geometry.scale(1/10,1/10,1/10);
 						var mesh = new THREE.Mesh( geometry, material );		
 						arrow9.add(mesh);
@@ -721,17 +739,19 @@
 			
 			
 				//HUD
-				/*text = document.createElement('div');
+				text = document.createElement('div');
 				document.body.appendChild(text);
 				
 				text.style.position = 'absolute';
 				text.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
-				text.style.width = "200px";
-				text.style.height = "200px";
+				text.style.width = "100px";
+				text.style.height = "20px";
 				text.style.color = "red";
-				text.innerHTML = "";
-				text.style.top = 600/2 + 'px';
-				text.style.left = 1775/2 + 'px';*/
+				text.innerHTML = "LEVEL1";
+				text.style.top = window.screen.height/6 + 'px';
+				text.style.left = window.screen.width/3 + 'px';
+				
+				textCountDown = 750;
 			
 			}
 			
@@ -769,10 +789,11 @@
 				/il muro di uscita diventa gradualmente trasparente e poi viene rimosso dalla scena*/
 				
 				
-				for (i=0; i<scene.children.length; i++){ //controlla prima se il cubo esiste ancora nella scena 
+				for (i=0; i<meshes.length; i++){ //controlla prima se il cubo esiste ancora nella scena 
 					
-					if (scene.children[i] == cube){
-						
+					meshes[i].visible = frustum.intersectsObject(meshes[i]); //frustum culling
+					
+					if (meshes[i] == cube){
 						
 				
 						if (playerBB.isIntersectionBox(wallBB) && frustum.intersectsObject(cube)){
@@ -793,12 +814,14 @@
 								particleEngine.height = 0.8;
 								particleEngine.opacity = 0.05;
 								
+								text.innerHTML = "LEVEL 2!";
+								
 							}
 							
 						}
 					}
 					
-					if (scene.children[i] == cube2){
+					if (meshes[i] == cube2){
 						
 				
 						if (playerBB.isIntersectionBox(wall2BB) && frustum.intersectsObject(cube2)){
@@ -816,7 +839,9 @@
 								light.distance = originalRadius;
 								particleEngine.height = 0.8;
 								particleEngine.opacity = 0.05;
-								particleEngine.decay = 0.0000;
+								particleEngine.decay = 0.00001;
+								
+								text.innerHTML = "LEVEL 3 !";
 								
 							}
 							
@@ -854,7 +879,7 @@
 				if (playerBB.min.x <= wallsBBs[maxIndex].max.x && playerBB.min.x > wallsBBs[maxIndex].min.x
 					&& maxIntersectionSize.x < maxIntersectionSize.z)
 							
-							controls.PLObject.position.x = wallsBBs[maxIndex].max.x + 0.5;
+					controls.PLObject.position.x = wallsBBs[maxIndex].max.x + 0.5;
 					
 				else if (playerBB.max.x >= wallsBBs[maxIndex].min.x && playerBB.max.x < wallsBBs[maxIndex].max.x
 					&& maxIntersectionSize.x < maxIntersectionSize.z)
@@ -908,6 +933,24 @@
 						//Fiamma
 						particleEngine.decay = 0.00005;
 						
+						
+						//Geometria muri
+						var geometry = new THREE.BoxGeometry (2, 2, 2);
+						
+						
+						//Texture muri 
+						var texture = THREE.ImageUtils.loadTexture( 'textures/wall2.jpg');
+						var bump = THREE.ImageUtils.loadTexture('textures/wall2b.jpg');
+			
+						
+						texture.wrapS = THREE.RepeatWrapping;
+						texture.wrapT = THREE.RepeatWrapping;
+						texture.repeat.set( 4, 4);
+						
+						bump.wrapS = THREE.RepeatWrapping;
+						bump.wrapT = THREE.RepeatWrapping;
+						bump.repeat.set( 4, 4);
+						
 						//Muri uscita
 						//stanza 1
 						var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
@@ -924,27 +967,27 @@
 						cube2.position.set(28,2,11);
 						
 						//HUD
-						/*document.body.removeChild(text);
-						text = document.createElement('div');
-						document.body.appendChild(text);
-						
-						text.style.position = 'absolute';
-						text.style.zIndex = 1;    // if you still don't see the label, try uncommenting this
-						text.style.width = "200px";
-						text.style.height = "200px";
-						text.style.color = "red";
-						text.innerHTML = "";
-						text.style.top = 600/2 + 'px';
-						text.style.left = 1775/2 + 'px';*/
+	
+						textCountDown = 750;
+						text.innerHTML = "LEVEL 1";
 					}
 					
 					else{
 						
-						text.innerHTML = "GAME OVER";
-						
+						text.innerHTML = "GAME OVER...";
+
 					
 					}
 					
+				}
+				
+				
+				//HUD
+				textCountDown--;
+			
+				if (textCountDown <= 0){
+					text.innerHTML = " ";
+					textCountDown = 750;
 				}
 
             }
@@ -966,7 +1009,7 @@
 			//Rendering della scena
 			function render(){
 				
-				
+				console.log(controls.PLObject.position);
 				renderer.render(scene, camera);
 				
 			}
