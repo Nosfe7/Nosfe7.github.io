@@ -63,6 +63,7 @@
 		<script src="ThreeJS\examples\js\libs\stats.min.js"></script>
 		<script src="js\FPSControls.js"></script>
 		<script src="js\ParticleEngine.js"></script>
+		<script src="js\loadArrows.js"></script>
 		<script src="js\jquery-1.11.3.js"></script>
 		<script src="js\loadShader.js"></script>
 		
@@ -85,7 +86,8 @@
             var camera, camera2; 
 			var controls;
 			var cube;
-			var cube2
+			var cube2;
+			var cube3;
 			var scene, renderer;
 			var light, originalRadius = 8;
 			var ambientLight;
@@ -98,6 +100,7 @@
 			var playerBB;
 			var wallBB;
 			var wall2BB;
+			var wall3BB;
 			var wallsBBs;
 			
 			var level1WallsPos;
@@ -108,6 +111,7 @@
 			
 			var text;
 			var textCountDown; 
+			var startCountDown = false;
 		
 		
 			init();
@@ -356,10 +360,18 @@
 				cube2.position.set(28,2,11);
 				meshes.push(cube2);
 				
+				//Muro uscita stanza 3
+				var transparentMaterial3 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+				cube3 = new THREE.Mesh(geometry,transparentMaterial3);	
+
+				scene.add(cube3);
+				cube3.position.set(36,2,47);
+				meshes.push(cube3);
+				
 				//colliders muri uscita boundary box,
 				wallBB = new THREE.Box3().setFromCenterAndSize(cube.position, new THREE.Vector3(4,4,4));
 				wall2BB = new THREE.Box3().setFromCenterAndSize(cube2.position, new THREE.Vector3(4,4,4));
-				
+				wall3BB = new THREE.Box3().setFromCenterAndSize(cube3.position, new THREE.Vector3(4,4,4));
 
 
 				// Statistiche
@@ -376,7 +388,7 @@
 				
 				controls = new FPSControls(camera,speed);
 				
-				controls.PLObject.position.set(-7,2,17); 
+				controls.PLObject.position.set(26,2,11); 
 				
 				scene.add(controls.PLObject);
 
@@ -462,281 +474,9 @@
 				//Timer
 				timer = new THREE.Clock(true);
 				
-				
-				//INDIZI
-				
-				
-				//Livello 1
-				arrow = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular: new THREE.Color(0x00ff00), shininess:100});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow.add(mesh);
-					}
-				);
-				
-				scene.add(arrow);
-				arrow.position.set(-7,1.05,10);
-				arrow.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				
-				
-				arrow1 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), shininess : 0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow1.add(mesh);
-					}
-				);
-				
-				scene.add(arrow1);
-				arrow1.position.set(1,1.05,8);
-				arrow1.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				arrow2 = new THREE.Object3D();0xffff00
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00), specular:new THREE.Color(0Xff0000), shininess : 200});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow2.add(mesh);
-					}
-				);
-				
-				scene.add(arrow2);
-				arrow2.position.set(3,1.05,10);
-				arrow2.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				
-				
-				
-				arrow3 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff7700)});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow3.add(mesh);
-					}
-				);
-				
-				scene.add(arrow3);
-				arrow3.position.set(8,1.05,7.5);
-				arrow3.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				
-				arrow5 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000)});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow5.add(mesh);
-					}
-				);
-				
-				scene.add(arrow5);
-				arrow5.position.set(8,1.05,11.5);
-				arrow5.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				
-				
-				//Livello 2
-				arrow6 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), specular:new THREE.Color(0x00ff00), shininess:100});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow6.add(mesh);
-					}
-				);
-				
-				scene.add(arrow6);
-				arrow6.position.set(16.5,1.05,-1);
-				arrow6.rotation.y-= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				arrow7 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00),  shininess:0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow7.add(mesh);0xff0000
-					}
-				);
-				
-				scene.add(arrow7);
-				arrow7.position.set(14,1.05,-3);
-				arrow7.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				
-				arrow8 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff0000), shininess:0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow8.add(mesh);
-					}
-				);
-				
-				scene.add(arrow8);
-				arrow8.position.set(24,1.05,-3);
-				arrow8.rotation.y-= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				arrow9 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json0xff0000
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00), shininess:0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow9.add(mesh);
-					}
-				);
-				
-				scene.add(arrow9);
-				arrow9.position.set(24,1.05,1);
-				arrow9.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				arrow10 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00), specular : new THREE.Color(0xffff00), shininess:100});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow10.add(mesh);
-					}
-				);
-				
-				scene.add(arrow10);
-				arrow10.position.set(22,1.05,5);
-				arrow10.rotation.y+= 90 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				
-				arrow11 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xff558b),  shininess:0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow11.add(mesh);
-					}
-				);
-				
-				scene.add(arrow11);
-				arrow11.position.set(20,1.05,3);
-				//arrow11.rotation.y+= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				arrow12 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0xffff00),  shininess:0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow12.add(mesh);
-					}
-				);
-				
-				scene.add(arrow12);
-				arrow12.position.set(24,1.05,11);
-				arrow12.rotation.y+= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
-				
-				arrow13 = new THREE.Object3D();
-				
-				loader.load(
-					// Path dell'oggetto da caricare in formato json
-					'models/sign.json',
-					// Funzione da richiamare quando l'oggetto è caricato
-					function ( geometry) {
-						//var texture = THREE.ImageUtils.loadTexture('models/maps/TorchUV.png');
-						
-						var material = new THREE.MeshPhongMaterial({color:new THREE.Color(0x00ff00),  shininess:0});
-						//geometry.scale(1/10,1/10,1/10);
-						var mesh = new THREE.Mesh( geometry, material );		
-						arrow13.add(mesh);
-					}
-				);
-				
-				scene.add(arrow13);
-				arrow13.position.set(20,1.05,11);
-				//arrow13.rotation.y+= 180 * Math.PI / 180; //converto da radianti a gradi con Pi/180
 			
-			
+				//Indizi
+				loadArrows(scene,loader);
 			
 				//HUD
 				text = document.createElement('div');
@@ -842,6 +582,98 @@
 								particleEngine.decay = 0.00001;
 								
 								text.innerHTML = "LEVEL 3 !";
+								
+							}
+							
+						}
+					}
+					
+					if (meshes[i] == cube3){
+						
+				
+						if (playerBB.isIntersectionBox(wall3BB) && frustum.intersectsObject(cube3)){
+							
+							
+							//Diminiusco l'opacità finchè non diventa trasparente
+							cube3.material.opacity -= 0.03;
+		
+							if (cube3.material.opacity <= 0){
+								cube3.material.opacity = 0;
+								scene.remove(cube3);
+								
+								
+								//VITTORIA !
+								text.innerHTML = "CONGRATULATIONS! YOU ARE OUT!";
+								
+								
+								if (!startCountDown){
+									
+									textCountDown = 250;
+									startCountDown = true;
+								}
+								
+								//RICOMINCIO DA CAPO
+								if (startCountDown == true && textCountDown == 0){
+								
+												//Luce
+									light.distance = originalRadius;
+									particleEngine.height = 0.8;
+									particleEngine.opacity = 0.05;
+
+									//Controlli FPS
+									controls.PLObject.position.set(-7,2,17); 
+									controls.PLObject.rotation.set(0,0,0);
+									
+									//Fiamma
+									particleEngine.decay = flameDecay;
+									
+									
+									//Geometria muri
+									var geometry = new THREE.BoxGeometry (2, 2, 2);
+									
+									
+									//Texture muri 
+									var texture = THREE.ImageUtils.loadTexture( 'textures/wall2.jpg');
+									var bump = THREE.ImageUtils.loadTexture('textures/wall2b.jpg');
+						
+									
+									texture.wrapS = THREE.RepeatWrapping;
+									texture.wrapT = THREE.RepeatWrapping;
+									texture.repeat.set( 4, 4);
+									
+									bump.wrapS = THREE.RepeatWrapping;
+									bump.wrapT = THREE.RepeatWrapping;
+									bump.repeat.set( 4, 4);
+									
+									//Muri uscita
+									//stanza 1
+									var transparentMaterial = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+									cube = new THREE.Mesh(geometry,transparentMaterial);	
+
+									scene.add(cube);
+									cube.position.set(8,2,3); 
+									
+									//stanza 2
+									var transparentMaterial2 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+									cube2 = new THREE.Mesh(geometry,transparentMaterial2);	
+
+									scene.add(cube2);
+									cube2.position.set(28,2,11);
+									
+									var transparentMaterial3 = new THREE.MeshPhongMaterial( {map:texture,  bumpMap: bump, bumpScale: 0.2, opacity : 1.0, transparent : true} );
+									cube3 = new THREE.Mesh(geometry,transparentMaterial3);	
+
+									scene.add(cube3);
+									cube3.position.set(36,2,47);
+									
+									//HUD
+				
+									textCountDown = 750;
+									startCountDown = false;
+									text.innerHTML = "LEVEL 1";
+								
+								
+								}
 								
 							}
 							
@@ -987,7 +819,7 @@
 			
 				if (textCountDown <= 0){
 					text.innerHTML = " ";
-					textCountDown = 750;
+					textCountDown = 0;
 				}
 
             }

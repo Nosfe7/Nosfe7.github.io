@@ -22,7 +22,7 @@ void main() {
 	float dist = distance(emitterPosition, position);
 
 	
-	gl_PointSize =  size / pow(dist, 2.5);
+	gl_PointSize =  size / pow(dist, 1.5);
 	
 	gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
 
